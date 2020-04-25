@@ -13,6 +13,8 @@ import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {TouchableOpacity, TextInput} from 'react-native-gesture-handler';
 import * as Animatable from 'react-native-animatable';
+import {AuthContext} from '../components/context';
+
 const SignInScreen = ({navigation}) => {
   const [data, setData] = useState({
     email: '',
@@ -20,6 +22,9 @@ const SignInScreen = ({navigation}) => {
     check_textInputChange: false,
     secureTextEntry: true,
   });
+
+  const {signIn} = React.useContext(AuthContext);
+
   const textInputChange = text => {
     if (text.length !== 0) {
       setData({...data, email: text, check_textInputChange: true});
@@ -36,6 +41,10 @@ const SignInScreen = ({navigation}) => {
       ...data,
       secureTextEntry: !data.secureTextEntry,
     });
+  };
+
+  const loginHandle = (username, password) => {
+    signIn(username, password);
   };
   return (
     <View style={styles.container}>
@@ -86,11 +95,43 @@ const SignInScreen = ({navigation}) => {
             )}
           </TouchableOpacity>
         </View>
-        <View style={{marginBottom: 35, marginTop: 30}}>
-          <Button title="Sign In" />
-        </View>
-        <TouchableOpacity onPress={() => navigation.navigate('SignUpScreen')}>
-          <Button title="Sign Up" />
+        <TouchableOpacity
+          style={styles.signIn}
+          onPress={() => {
+            loginHandle(data.email, data.password);
+          }}>
+          <LinearGradient colors={['#08d4c4', '#01ab9d']} style={styles.signIn}>
+            <Text
+              style={[
+                styles.textSign,
+                {
+                  color: '#fff',
+                },
+              ]}>
+              Sign In
+            </Text>
+          </LinearGradient>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => navigation.navigate('SignUpScreen')}
+          style={[
+            styles.signIn,
+            {
+              borderColor: '#009387',
+              borderWidth: 1,
+              marginTop: 15,
+            },
+          ]}>
+          <Text
+            style={[
+              styles.textSign,
+              {
+                color: '#009387',
+              },
+            ]}>
+            Sign Up
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
