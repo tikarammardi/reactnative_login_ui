@@ -1,20 +1,33 @@
 import React from 'react';
 import {View, Text, Button, StyleSheet, Dimensions, Image} from 'react-native';
 
-const SplashScreen = () => {
+import LinearGradient from 'react-native-linear-gradient';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import * as Animatable from 'react-native-animatable';
+const SplashScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Image
+        <Animatable.Image
+          animation="bounceIn"
+          duration={1500}
           source={require('../assets/logo.png')}
           style={styles.logo}
           resizeMode="stretch"
         />
       </View>
-      <View style={styles.footer}>
-        <Text>Stay connected with everyone!</Text>
-        <Text>Sign in with account</Text>
-      </View>
+      <Animatable.View style={styles.footer} animation="fadeInUpBig">
+        <Text style={styles.title}>Stay connected with everyone!</Text>
+        <Text style={styles.text}>Sign in with account</Text>
+        <View style={styles.button}>
+          <TouchableOpacity onPress={() => navigation.navigate('SignInScreen')}>
+            <Button title="Get started">
+              <MaterialIcons name="navigate-next" color="#FFF" size={20} />
+            </Button>
+          </TouchableOpacity>
+        </View>
+      </Animatable.View>
     </View>
   );
 };
